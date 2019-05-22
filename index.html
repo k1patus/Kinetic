@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
+        <meta name="HandheldFriendly" content="True">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <title>APM-testi</title>
+
+        <link rel="shortcut icon" href="favicon.png" />
+        <link rel="stylesheet" href="lib/css/bootstrap.css" />
+        <link rel="stylesheet" href="lib/css/jquery.mmenu.all.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/base.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/action-bars.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/animations.css" />
+        <!--<link rel="stylesheet" href="lib/css/holo-dark/buttons.css" />-->
+        <link rel="stylesheet" href="lib/css/holo-dark/content.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/dialogs.css" />
+        <!--<link rel="stylesheet" href="lib/css/holo-dark/forms.css" />-->
+        <link rel="stylesheet" href="lib/css/holo-dark/icomoon.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/lists.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/sliders.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/spinners.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/stack.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/tabs.css" />
+        <link rel="stylesheet" href="lib/css/holo-dark/toasts.css" />
+        <link rel="stylesheet" href="lib/css/index.css" />
+        <!--<link rel="stylesheet" href="lib/css/pageslider.css" />-->
+
+        <!-- For demo purposes only -->
+        <style type="text/css">
+            body {
+                -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+                -webkit-text-size-adjust: 100%;
+            }
+
+            h1.intro {
+                font-weight: 200;
+                margin: 0.2em 0;
+            }
+
+            p {
+                color: #999;
+                margin-bottom: 1em;
+            }
+
+            .center-me {
+                text-align: center;
+            }
+
+            .list i[class*="icon-"] {
+                float: left;
+                font-size: 36px;
+                color: #999;
+            }
+            .i-class {
+                float: left;
+                line-height: 36px;
+                margin-left: 8px;
+            }
+            .footnote {
+                display: block;
+                text-align: center;
+                text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+                color: #222;
+                font-size: 11px;
+            }
+        </style>
+        <script>
+            window.eventClick = "click";
+
+            //document.addEventListener('deviceready', function() {
+                if (navigator.userAgent.match(/Android/i)) {
+                    window.eventClick = 'touchstart'; //"touchclick";
+                }
+                else if (navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i)) {
+                    window.eventClick = "touchstart";
+                }
+                else {
+                    window.eventClick = "click";
+                }
+            //}, false);
+        </script>
+    </head>
+    <body class="loading">
+
+
+        <header class="action-bar fixed-top">
+            <img alt="" src="./img/app_logo.png" id="btnNav" />
+            <div id="headerText"></div>
+        </header>
+
+        <div id="container">
+
+            <div class="page" data-role="page" id="page-home">
+                <div class="content container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="#page-choosegroup" class="btn btn-success btn-block btn-lg changePage">Tee APM-testi</a><br />
+                            <a href="#" class="btn btn-info btn-block btn-lg">Tulokset</a><br />
+                            <a href="#" class="btn btn-danger btn-block btn-lg btnExit">Lopeta</a><br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" data-role="page" id="page-groups">
+                <div class="content container-fluid">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h3>Ryhmät</h3>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" class="btn btn-default pull-right btnRefreshGroups"><span class="glyphicon glyphicon-refresh"></span></a> 
+                            <a href="#" class="btn btn-success pull-right btnAddGroup"><span class="glyphicon glyphicon-plus"></span></a> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="list-group"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" data-role="page" id="page-group">
+                <div class="content container-fluid">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h3>Ryhmä</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="well well-sm container-group-data"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4>Lapset</h4>
+                            <div class="well well-sm container-children">
+                                <a href="#" class="btn btn-success pull-right btnAddChild"><span class="glyphicon glyphicon-plus"></span></a> 
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <th>Nimi</th>
+                                        <th>Huoltaja</th>
+                                        <th>Huoltajan puh.</th>
+                                        <th>Huoltajan email</th>
+                                        </thead>
+                                        <tbody class="container-children">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" data-role="page" id="page-choosegroup">
+                <div class="content container-fluid">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h3>Valitse ryhmä</h3>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" class="btn btn-default pull-right btnRefreshGroups"><span class="glyphicon glyphicon-refresh"></span></a> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="list-group"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" data-role="page" id="page-choosechildren">
+                <div class="content container-fluid">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <h3>Valitse lapset</h3>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" class="btn btn-default pull-right btnRefreshChildrenList"><span class="glyphicon glyphicon-refresh"></span></a> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="list-children"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" data-role="page" id="page-test1">
+                <div class="content container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4>Osio 1. Motoriset taidot 3-7-vuotiailla</h4><br />
+                            <form role="form">
+                                <!-- #1 -->
+                                <div class="form-group">
+                                    <label for="test1">1. 10m kävely</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="inputTest_1" placeholder="Tulos sekunteina">
+                                        <span class="input-group-addon">s</span>
+                                        <div class="input-group-btn">
+                                            <a href="#" class="btn btn-info dropdown-toggle choice_1" data-toggle="dropdown">Jalkaterien suunta <span class="caret"></span></a>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li><a href="#" class="btnChoice_1" data-id="0">Eteenpäin</a></li>
+                                                <li><a href="#" class="btnChoice_1" data-id="1">Sisäänpäin</a></li>
+                                                <li><a href="#" class="btnChoice_1" data-id="2">Ulospäin</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- #2 -->
+                                <div class="form-group">
+                                    <label for="test2">2. 10m juoksu</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="inputTest_2" placeholder="Tulos sekunteina">
+                                        <span class="input-group-addon">s</span>
+                                        <div class="input-group-btn">
+                                            <a href="#" class="btn btn-info dropdown-toggle choice_2" data-toggle="dropdown">Jalkaterien suunta <span class="caret"></span></a>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li><a href="#" class="btnChoice_2" data-id="0">Eteenpäin</a></li>
+                                                <li><a href="#" class="btnChoice_2" data-id="1">Sisäänpäin</a></li>
+                                                <li><a href="#" class="btnChoice_2" data-id="2">Ulospäin</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- #3 -->
+                                <div class="form-group">
+                                    <label for="test3">3. Tasaponnistushyppy eteenpäin</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="inputTest_3" placeholder="Tulos senttimetreinä">
+                                        <span class="input-group-addon">cm</span>
+                                    </div>
+                                </div>
+
+                                <!-- #4 -->
+                                <div class="form-group">
+                                    <label for="test4">4. Tasajaloinhyppely sivuttain (15 krt)</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="inputTest_4" placeholder="Tulos sekunteina">
+                                        <span class="input-group-addon">s</span>
+                                    </div>
+                                </div>
+
+                                <!-- #5 -->
+                                <div class="form-group">
+                                    <label for="test5">5. Heitto-kiinniottoyhdistelmä (10 krt)</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="inputTest_5" placeholder="Tulos kertoina (pisteinä)">
+                                        <span class="input-group-addon">kertaa (pisteet)</span>
+                                    </div>
+                                </div>
+
+                                <!-- #6 -->
+                                <div class="form-group">
+                                    <label for="test6">6. Tarkkuusheitto</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">1,5 m</span>
+                                        <input type="text" class="form-control" id="inputTest_6_1" placeholder="Tulos pisteinä">
+                                        <span class="input-group-addon">pistettä</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">2 m</span>
+                                        <input type="text" class="form-control" id="inputTest_6_2" placeholder="Tulos pisteinä">
+                                        <span class="input-group-addon">pistettä</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">3 m</span>
+                                        <input type="text" class="form-control" id="inputTest_6_3" placeholder="Tulos pisteinä">
+                                        <span class="input-group-addon">pistettä</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <a href="#" class="btn btn-info dropdown-toggle choice_6" data-toggle="dropdown">Heittokäsi <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" class="btnChoice_6" data-id="0">Oikea</a></li>
+                                            <li><a href="#" class="btnChoice_6" data-id="1">Vasen</a></li>
+                                            <li><a href="#" class="btnChoice_6" data-id="2">Vaihtelee kättä</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- #7 -->
+                                <div class="form-group">
+                                    <label for="test7">7. Seisominen yhdellä jalalla</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Oikealla</span>
+                                        <input type="text" class="form-control" id="inputTest_7_1" placeholder="Tulos sekunteina">
+                                        <span class="input-group-addon">s</span>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Vasemmalla</span>
+                                        <input type="text" class="form-control" id="inputTest_7_2" placeholder="Tulos sekunteina">
+                                        <span class="input-group-addon">s</span>
+                                    </div>
+                                </div>
+
+                                <!-- #8 -->
+                                <div class="form-group">
+                                    <label for="test8">8. Taputusrytmissä käveleminen</label><br />
+                                    <div class="btn-group">
+                                        <a href="#" class="btn btn-default btnChoice_8" id="inputTest_8_1" data-id="0">KYLLÄ</a>
+                                        <a href="#" class="btn btn-default btnChoice_8" id="inputTest_8_2" data-id="1">EI</a>
+                                    </div>
+                                </div>
+
+                                <!-- #9 -->
+                                <div class="form-group">
+                                    <label for="test9">9. Laukkaaminen eteenpäin</label><br />
+                                    <div class="btn-group">
+                                        <a href="#" class="btn btn-default btnChoice_9" id="inputTest_9_1" data-id="0">KYLLÄ</a>
+                                        <a href="#" class="btn btn-default btnChoice_9" id="inputTest_9_2" data-id="1">EI</a>
+                                    </div>
+                                </div>
+
+                                <!-- #10 -->
+                                <div class="form-group">
+                                    <label for="test10">10. Laukkaaminen sivuttain</label><br />
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                Oikea kylki edellä<br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_10_1" id="inputTest_10_1_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_10_1" id="inputTest_10_1_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                Vasen kylki edellä<br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_10_2" id="inputTest_10_2_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_10_2" id="inputTest_10_2_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- #11 -->
+                                <div class="form-group">
+                                    <label for="test11">11. Kuperkeikka</label><br />
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                Päättyen selinmakuulle<br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_11_1" id="inputTest_11_1_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_11_1" id="inputTest_11_1_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                Päättyen istualleen<br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_11_2" id="inputTest_11_2_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_11_2" id="inputTest_11_2_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                Päättyen seisomiseen<br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_11_3" id="inputTest_11_3_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_11_3" id="inputTest_11_3_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- #12 -->
+                                <div class="form-group">
+                                    <label for="test12">12. Pallon potkaiseminen kohteeseen</label><br />
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                Paikaltaan paikallaan olevaan palloon<br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_12_1" id="inputTest_12_1_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_12_1" id="inputTest_12_1_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                Paikallaan olevaan palloon juoksuvauhdissa<br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_12_2" id="inputTest_12_2_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_12_2" id="inputTest_12_2_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                Kohti vierivää palloa juoksuvauhdilla<br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_12_3" id="inputTest_12_3_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_12_3" id="inputTest_12_3_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <a href="#" class="btn btn-info dropdown-toggle choice_12" data-toggle="dropdown">Potkaiseva jalka <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" class="btnChoice_12" data-id="0">Oikea</a></li>
+                                            <li><a href="#" class="btnChoice_12" data-id="1">Vasen</a></li>
+                                            <li><a href="#" class="btnChoice_12" data-id="2">Vaihtelee jalkaa</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+
+                                <br />
+                                <a href="#page-test2" class="btn btn-primary btn-block btn-lg btnTestNext changePage">Seuraava</a>
+                                <br />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" data-role="page" id="page-test2">
+                <div class="content container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4>Osio 2. Havaintomotoriset taidot 1-7-vuotiailla</h4><br />
+                            <form role="form">
+                                <!-- #1 -->
+                                <div class="form-group">
+                                    <label for="test13">1. Itsensä tunnistaminen</label><br />
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Tietää oman nimensä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_1" id="inputTest_13_1_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_1" id="inputTest_13_1_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_1" id="inputTest_13_1_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Katsoo itseään peilistä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_2" id="inputTest_13_2_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_2" id="inputTest_13_2_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_2" id="inputTest_13_2_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Tunnistaa itsensä valokuvasta<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_3" id="inputTest_13_3_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_3" id="inputTest_13_3_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_3" id="inputTest_13_3_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Tunnistaa itsensä valokuvasta muiden joukosta<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_4" id="inputTest_13_4_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_4" id="inputTest_13_4_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_4" id="inputTest_13_4_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Kirjoittaa oman nimensä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_5" id="inputTest_13_5_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_5" id="inputTest_13_5_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_5" id="inputTest_13_5_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Piirtää oman kuvansa<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_6" id="inputTest_13_6_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_6" id="inputTest_13_6_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_13_6" id="inputTest_13_6_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- #2 -->
+                                <div class="form-group">
+                                    <label for="test14">2. Kehonosien tunnistaminen ja paikallistaminen (koskettaminen kädellä)</label><br />
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Silmä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_1" id="inputTest_14_1_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_1" id="inputTest_14_1_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_1" id="inputTest_14_1_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Korva<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_2" id="inputTest_14_2_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_2" id="inputTest_14_2_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_2" id="inputTest_14_2_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Nenä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_3" id="inputTest_14_3_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_3" id="inputTest_14_3_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_3" id="inputTest_14_3_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Vatsa<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_4" id="inputTest_14_4_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_4" id="inputTest_14_4_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_4" id="inputTest_14_4_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Selkä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_5" id="inputTest_14_5_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_5" id="inputTest_14_5_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_5" id="inputTest_14_5_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Kylki<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_6" id="inputTest_14_6_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_6" id="inputTest_14_6_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_6" id="inputTest_14_6_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Olkapää<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_7" id="inputTest_14_7_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_7" id="inputTest_14_7_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_7" id="inputTest_14_7_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Kyynärpää<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_8" id="inputTest_14_8_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_8" id="inputTest_14_8_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_8" id="inputTest_14_8_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Ranne<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_9" id="inputTest_14_9_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_9" id="inputTest_14_9_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_9" id="inputTest_14_9_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Sormet<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_10" id="inputTest_14_10_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_10" id="inputTest_14_10_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_10" id="inputTest_14_10_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Lantio<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_11" id="inputTest_14_11_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_11" id="inputTest_14_11_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_11" id="inputTest_14_11_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Polvi<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_12" id="inputTest_14_12_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_12" id="inputTest_14_12_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_12" id="inputTest_14_12_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Nilkka<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_13" id="inputTest_14_13_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_13" id="inputTest_14_13_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_13" id="inputTest_14_13_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Kantapää<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_14" id="inputTest_14_14_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_14" id="inputTest_14_14_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_14" id="inputTest_14_14_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Varpaat<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_15" id="inputTest_14_15_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_15" id="inputTest_14_15_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_14_15" id="inputTest_14_15_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- #3 -->
+                                <div class="form-group">
+                                    <label for="test15">3. Vartalon eri puolten erottaminen (heiluttaa)</label><br />
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Oikeaa kättä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_1" id="inputTest_15_1_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_1" id="inputTest_15_1_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_1" id="inputTest_15_1_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Vasenta kättä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_2" id="inputTest_15_2_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_2" id="inputTest_15_2_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_2" id="inputTest_15_2_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Oikeaa jalkaa<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_3" id="inputTest_15_3_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_3" id="inputTest_15_3_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_3" id="inputTest_15_3_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Vasenta jalkaa<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_4" id="inputTest_15_4_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_4" id="inputTest_15_4_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_15_4" id="inputTest_15_4_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- #4 -->
+                                <div class="form-group">
+                                    <label for="test16">4. Kehon keskilinjan ylittäminen (koskettaa)</label><br />
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Vasenta korvaa oikealla kädellä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_16_1" id="inputTest_16_1_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_16_1" id="inputTest_16_1_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_16_1" id="inputTest_16_1_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Oikeaa korvaa vasemmalla kädellä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_16_2" id="inputTest_16_2_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_16_2" id="inputTest_16_2_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_16_2" id="inputTest_16_2_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- #5 -->
+                                <div class="form-group">
+                                    <label for="test17">5. Liikkeen ja käsitteen yhdistäminen</label><br />
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Tietää kuinka olla pieni<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_1" id="inputTest_17_1_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_1" id="inputTest_17_1_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_1" id="inputTest_17_1_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Tietää kuinka olla suuri<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_2" id="inputTest_17_2_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_2" id="inputTest_17_2_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_2" id="inputTest_17_2_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Tietää kuinka koukistaa kättä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_3" id="inputTest_17_3_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_3" id="inputTest_17_3_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_3" id="inputTest_17_3_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Tietää kuinka ojentaa kättä<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_4" id="inputTest_17_4_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_4" id="inputTest_17_4_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_4" id="inputTest_17_4_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                Tietää kuinka kävellään varpailla (= päkiöillä)<br />
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_5" id="inputTest_17_5_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_5" id="inputTest_17_5_2" data-id="1">AVUSTETTUNA</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_17_5" id="inputTest_17_5_3" data-id="2">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- #6 -->
+                                <div class="form-group">
+                                    <label for="test18">6. Vartalon osien liikkeiden matkiminen</label><br />
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <img src="img/char1.jpg" alt="char1" /><br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_1" id="inputTest_18_1_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_1" id="inputTest_18_1_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <img src="img/char2.jpg" alt="char2" /><br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_2" id="inputTest_18_2_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_2" id="inputTest_18_2_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <img src="img/char3.jpg" alt="char3" /><br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_3" id="inputTest_18_3_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_3" id="inputTest_18_3_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <img src="img/char4.jpg" alt="char4" /><br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_4" id="inputTest_18_4_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_4" id="inputTest_18_4_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <img src="img/char5.jpg" alt="char5" /><br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_5" id="inputTest_18_5_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_5" id="inputTest_18_5_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <img src="img/char6.jpg" alt="char6" /><br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_6" id="inputTest_18_6_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_6" id="inputTest_18_6_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row">
+                                            <div class="col-xs-7">
+                                                <img src="img/char7.jpg" alt="char7" /><br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_7" id="inputTest_18_7_1" data-id="0">KYLLÄ</a>
+                                                <a href="#" class="btn btn-default btn-block btnChoice_18_7" id="inputTest_18_7_2" data-id="1">EI</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <a href="#" class="btn btn-primary btn-block btn-lg btnSave">Tallenna</a>
+                                <br />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content container-fluid" id="loginView">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3>Kirjaudu sisään</h3><br />
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="username">Käyttäjätunnus</label>
+                                <input type="text" class="form-control" id="username" placeholder="Käyttäjätunnus">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Salasana</label>
+                                <input type="password" class="form-control" id="password" placeholder="Salasana">
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" name="rememberme" checked> Muista kirjautumistietoni</label>
+                            </div>
+                            <a href="#" class="btn btn-primary" id="btnLogin">Kirjaudu</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <nav id="menu-left">
+            <ul>
+                <li class="selected"><a href="#page-home" class="changePage">Etusivu</a></li>
+                <li><a href="#page-groups" class="changePage">Ryhmät</a></li>
+                <li><a href="#" id="btnLogOut">Kirjaudu ulos</a></li>
+            </ul>
+        </nav>
+
+        <div class="modal fade" id="modalAddGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Lisää ryhmä</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <input type="hidden" name="action" value="add" />
+                            <input type="hidden" name="ID_group" value="" />
+                            <div class="form-group">
+                                <label for="">Nimi</label>
+                                <input type="text" class="form-control" name="name" placeholder="Ryhmän nimi">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Postinumero</label>
+                                <input type="text" class="form-control" name="postnumber" placeholder="Postinumero">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Maa</label>
+                                <input type="text" class="form-control" name="country" placeholder="Maa">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
+                        <button type="button" class="btn btn-primary" id="btnModalAddGroupSubmit">Tallenna</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalChildren" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Lisää lapsi ryhmään</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <input type="hidden" name="action" value="add" />
+                            <input type="hidden" name="ID_group" value="" />
+                            <input type="hidden" name="ID_child" value="" />
+                            <div class="form-group">
+                                <label for="">Etunimi</label>
+                                <input type="text" class="form-control" name="firstname" placeholder="Etunimi">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Sukunimi</label>
+                                <input type="text" class="form-control" name="lastname" placeholder="Sukunimi">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Syntymävuosi</label>
+                                <input type="text" class="form-control" name="yearofbirth" placeholder="Syntymävuosi">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Huoltaja</label>
+                                <input type="text" class="form-control" name="custodian_name" placeholder="Huoltajan nimi">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Huoltajan puhelin</label>
+                                <input type="text" class="form-control" name="custodian_phone" placeholder="Huoltajan puhelin">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Huoltajan email</label>
+                                <input type="text" class="form-control" name="custodian_email" placeholder="Huoltajan email">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Peruuta</button>
+                        <button type="button" class="btn btn-primary" id="btnModalChildrenSubmit">Tallenna</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="./lib/modernizr-2.7.1.min.js"></script>
+        <script src="./lib/jquery-2.0.3.min.js"></script>
+        <script src="./lib/bootstrap.min.js"></script>
+        <script src="./lib/jquery.mmenu.min.all.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/hammer.js/1.0.5/jquery.hammer.min.js"></script>
+        <script src="./lib/fries.min.js"></script>
+        <script src="./lib/notify.min.js"></script>
+        <script src="./lib/js/stack.js"></script>
+        <script src="./lib/js/action-bars.js"></script>
+        <script src="./lib/js/spinners.js"></script>
+        <script src="./lib/js/tabs.js"></script>
+
+        <script src="./js/pages/page.home.js"></script>
+        <script src="./js/pages/page.groups.js"></script>
+        <script src="./js/pages/page.group.js"></script>
+        <script src="./js/pages/page.choosegroup.js"></script>
+        <script src="./js/pages/page.choosechildren.js"></script>
+        <script src="./js/pages/page.test1.js"></script>
+        <script src="./js/pages/page.test2.js"></script>
+        <script src="./js/appManager.js"></script>
+        <script src="./js/app.js"></script>
+        <!--<script src="./js/fingerblast.js"></script>
+        <script src="./js/example.js"></script>-->
+        <script>
+            $(function() {
+                $('nav#menu-left').mmenu({
+                    dragOpen: true
+                });
+
+                var menuOpen = false;
+                $('#btnNav').click(function() {
+                    if (menuOpen) {
+                        $("nav#menu-left").trigger("close");
+                        menuOpen = false;
+                    } else {
+                        $("nav#menu-left").trigger("open");
+                        menuOpen = true;
+                    }
+                });
+
+                $(document).on('click', 'a#btnExit', function() {
+                    window.appManager.exitApp();
+                    return false;
+                });
+            });
+        </script>
+    </body>
+</html>
